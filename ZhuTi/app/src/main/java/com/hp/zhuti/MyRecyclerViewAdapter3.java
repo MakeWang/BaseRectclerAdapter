@@ -23,21 +23,9 @@ public class MyRecyclerViewAdapter3 extends BaseRecyclerViewAdapter<String> {
         HolderView holderView = (HolderView) holder;
         holderView.txtName.setText(mList.get(position));
 
+        holderView.txtName.setOnClickListener(new OnClicListener(position));
 
-        holderView.txtName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemOnClickListener.onItemClick(v,position,mList.get(position));
-            }
-        });
-
-        holderView.txtName.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                itemOnClickListener.onLongItemClick(v,position,mList.get(position));
-                return false;
-            }
-        });
+        holderView.txtName.setOnLongClickListener(new OnLongClicListener(position));
 
     }
 
@@ -54,6 +42,37 @@ public class MyRecyclerViewAdapter3 extends BaseRecyclerViewAdapter<String> {
         public HolderView(View itemView) {
             super(itemView);
             txtName = (TextView) itemView.findViewById(R.id.item);
+        }
+    }
+
+    /**
+     * 为了解决条码错乱的问题
+     */
+    class OnClicListener implements View.OnClickListener{
+
+        int posion;
+        public OnClicListener(int pos){
+            this.posion = pos;
+        }
+
+        @Override
+        public void onClick(View v) {
+            itemOnClickListener.onItemClick(v,posion,mList.get(posion));
+        }
+    }
+
+
+    class OnLongClicListener implements View.OnLongClickListener{
+
+        int posion;
+        public OnLongClicListener(int pos){
+            this.posion = pos;
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            itemOnClickListener.onItemClick(v,posion,mList.get(posion));
+            return false;
         }
     }
 
